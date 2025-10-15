@@ -135,10 +135,10 @@ export default function JournalEditor({ purpose, role, onSave, onContentChange, 
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             Journal Entry
           </h1>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
             {today}
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function JournalEditor({ purpose, role, onSave, onContentChange, 
       <div className="space-y-6">
         {/* Title Input */}
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Title
           </label>
           <input
@@ -156,16 +156,16 @@ export default function JournalEditor({ purpose, role, onSave, onContentChange, 
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="What's this entry about?"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
           />
           {errors.title && (
-            <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.title}</p>
           )}
         </div>
 
         {/* Content Textarea */}
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Your thoughts
           </label>
           <textarea
@@ -174,10 +174,10 @@ export default function JournalEditor({ purpose, role, onSave, onContentChange, 
             onChange={(e) => setContent(e.target.value)}
             placeholder="Start writing your thoughts..."
             rows={12}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-vertical"
           />
           {errors.content && (
-            <p className="mt-1 text-sm text-red-600">{errors.content}</p>
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.content}</p>
           )}
         </div>
 
@@ -186,7 +186,7 @@ export default function JournalEditor({ purpose, role, onSave, onContentChange, 
           <button
             onClick={handleSave}
             disabled={isSaving || title.length < 3 || content.length < 20}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? 'Saving...' : 'Save Entry'}
           </button>
