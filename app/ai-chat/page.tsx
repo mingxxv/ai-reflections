@@ -254,9 +254,7 @@ export default function AIChatPage() {
   const [showStreakRecovery, setShowStreakRecovery] = useState(false);
   const [showJourneySelection, setShowJourneySelection] = useState(false);
   const [showMaterialsShop, setShowMaterialsShop] = useState(false);
-  const [selectedJourney, setSelectedJourney] = useState<number | null>(null);
   const [showMaterialTools, setShowMaterialTools] = useState(false);
-  const [selectedMaterial, setSelectedMaterial] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -479,7 +477,6 @@ export default function AIChatPage() {
     });
 
     setShowJourneySelection(false);
-    setSelectedJourney(journeyDuration);
 
     // Show journey start celebration
     setTimeout(() => {
@@ -504,17 +501,8 @@ export default function AIChatPage() {
     }
   };
 
-  const calculateJourneyProgress = () => {
-    if (!userStats.journey.startDate) return 0;
 
-    const startDate = new Date(userStats.journey.startDate);
-    const today = new Date();
-    const daysPassed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-
-    return Math.min(daysPassed, userStats.journey.duration);
-  };
-
-  const useMaterial = (materialId: string) => {
+  const handleUseMaterial = (materialId: string) => {
     if (!userStats.materials.includes(materialId)) return;
 
     const prompts = materialPrompts[materialId as keyof typeof materialPrompts];
@@ -1431,7 +1419,7 @@ export default function AIChatPage() {
               return (
                 <button
                   key={materialId}
-                  onClick={() => useMaterial(materialId)}
+                  onClick={() => handleUseMaterial(materialId)}
                   className="py-2 px-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 rounded-xl text-sm font-medium hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-800/30 dark:hover:to-pink-800/30 transition-colors"
                 >
                   {material.icon} {material.name}

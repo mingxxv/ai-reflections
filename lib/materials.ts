@@ -5,7 +5,7 @@ import path from "node:path";
  * Simple materials mapping: select relevant headings/ranges from Materials.md per module slug.
  * For now, we slice by manual markers (headings) detected in the single Markdown file.
  */
-const MATERIALS_SOURCE_PATH = path.resolve("C:/Users/j123t/Downloads/Materials.md");
+const MATERIALS_SOURCE_PATH = path.resolve(process.cwd(), "Materials.md");
 
 export type ModuleSlug =
   | "foundations-of-fatherhood"

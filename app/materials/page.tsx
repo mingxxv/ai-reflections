@@ -6,7 +6,6 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { getAllModules as getModules } from "@/lib/mockData";
 
 interface MaterialsPageProps {
   searchParams?: Promise<{
@@ -21,8 +20,10 @@ export default async function MaterialsPage(props: MaterialsPageProps) {
   const modules = getAllModules();
   const moduleMap = Object.fromEntries(modules.map((m) => [m.slug, m]));
 
-  const content = selectedModule
-    ? getMaterialsForSlug(selectedModule as any)
+  // Validate selectedModule is a valid ModuleSlug before passing to getMaterialsForSlug
+  const isValidSlug = selectedModule && modules.some(m => m.slug === selectedModule);
+  const content = isValidSlug
+    ? getMaterialsForSlug(selectedModule as import('@/lib/materials').ModuleSlug)
     : getAllMaterials();
 
   return (
