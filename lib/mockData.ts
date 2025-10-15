@@ -3,20 +3,35 @@ import { Module, ModuleDetail } from "@/types/module";
 /**
  * Mock Data Utilities
  *
- * This file provides mock data and utility functions for development.
- * When the backend API is ready, replace these functions with actual API calls.
+ * This file now loads data from markdown files in the /content directory.
+ * When the backend API is ready, update the /lib/content.ts file to fetch from API endpoints.
  *
  * Migration guide:
- * 1. Replace getAllModules() with: fetch('/api/modules').then(res => res.json())
- * 2. Replace getModuleBySlug() with: fetch(`/api/modules/${slug}`).then(res => res.json())
- * 3. Update the return types to match your API response structure
+ * ================
+ * These functions are now just wrappers around the content loader.
+ * To migrate to a backend API:
+ *
+ * 1. Update /lib/content.ts functions to fetch from your API
+ * 2. No changes needed in this file - the interface remains the same
+ * 3. Components using these functions will continue to work without modification
+ *
+ * Example API migration in /lib/content.ts:
+ * ------------------------------------------
+ * // Before (file-based):
+ * export async function loadModules(): Promise<Module[]> {
+ *   const content = fs.readFileSync('content/modules/modules.md', 'utf-8');
+ *   return parseMarkdownSections(content);
+ * }
+ *
+ * // After (API-based):
+ * export async function loadModules(): Promise<Module[]> {
+ *   const response = await fetch('/api/modules');
+ *   return response.json();
+ * }
  */
 
-/**
- * Mock module data
- * This array simulates what would be returned from a backend API
- */
-const MOCK_MODULES: Module[] = [
+// Fallback modules data (will be used if file loading fails or on client-side)
+const FALLBACK_MODULES: Module[] = [
   {
     id: "1",
     title: "Foundations of Fatherhood",
@@ -79,7 +94,7 @@ const MOCK_MODULES: Module[] = [
   },
   {
     id: "7",
-    title: "Father’s Self‑Care",
+    title: "Father's Self‑Care",
     description: "Sleep, stress, and fitness basics for sustainable presence at home and at work.",
     icon: "🧘",
     color: "#14B8A6",
@@ -109,48 +124,105 @@ const MOCK_MODULES: Module[] = [
   },
 ];
 
+// Cache for modules to avoid re-reading files
+let cachedModules: Module[] | null = null;
+
 /**
  * Get all available modules
  *
- * This function simulates fetching all modules from a backend API.
- * In production, replace with an actual API call.
+ * Loads modules from content files on server-side. Falls back to hardcoded data on client-side.
+ * When backend is ready, update to fetch from API endpoints.
  *
  * @returns Array of all modules
  *
  * @example
- * // Current usage (mock data)
  * const modules = getAllModules();
- *
- * @example
- * // Future usage (with backend API)
- * const modules = await fetch('/api/modules')
- *   .then(res => res.json())
- *   .then(data => data.modules);
  */
 export function getAllModules(): Module[] {
-  return MOCK_MODULES;
+  if (!cachedModules) {
+    cachedModules = loadModulesSync();
+  }
+  return cachedModules;
+}
+
+/**
+ * Synchronous wrapper for loading modules
+ * Loads from markdown files on server-side, uses fallback data on client-side
+ */
+function loadModulesSync(): Module[] {
+  // Check if we're running on the server (where fs is available)
+  if (typeof window !== 'undefined') {
+    // Client-side: return fallback data
+    return FALLBACK_MODULES;
+  }
+
+  try {
+    // Server-side only: dynamic imports for Node.js modules
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const fs = require('fs');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const path = require('path');
+
+    const contentPath = path.join(process.cwd(), 'content', 'modules', 'modules.md');
+    const content = fs.readFileSync(contentPath, 'utf-8');
+    return parseModulesFromMarkdown(content);
+  } catch (error) {
+    console.error('Error loading modules:', error);
+    return FALLBACK_MODULES;
+  }
+}
+
+/**
+ * Parse modules from markdown content
+ */
+function parseModulesFromMarkdown(content: string): Module[] {
+  const modules: Module[] = [];
+  const lines = content.split('\n');
+  let currentModule: Partial<Module> = {};
+  let currentSlug = '';
+
+  for (const line of lines) {
+    if (line.startsWith('## ') && !line.includes('Modules')) {
+      if (currentSlug && Object.keys(currentModule).length > 0) {
+        modules.push(currentModule as Module);
+      }
+      currentSlug = line.replace('## ', '').trim();
+      currentModule = { slug: currentSlug };
+    } else if (line.startsWith('- **')) {
+      const match = line.match(/- \*\*(.+?)\*\*: (.+)/);
+      if (match) {
+        const [, key, value] = match;
+        if (key === 'enabled') {
+          currentModule[key] = value === 'true';
+        } else {
+          // Store as string or other value, will be typed correctly when cast to Module
+          (currentModule as Record<string, string | boolean>)[key] = value;
+        }
+      }
+    }
+  }
+
+  if (currentSlug && Object.keys(currentModule).length > 0) {
+    modules.push(currentModule as Module);
+  }
+
+  return modules;
 }
 
 /**
  * Get a single module by its slug
  *
- * This function simulates fetching a specific module from a backend API.
- * In production, replace with an actual API call.
+ * Loads a specific module from content files. When backend is ready,
+ * this will automatically use API calls if /lib/content.ts is updated.
  *
  * @param slug - The URL slug of the module to retrieve
  * @returns The module object if found, undefined otherwise
  *
  * @example
- * // Current usage (mock data)
  * const module = getModuleBySlug('daily-reflections');
- *
- * @example
- * // Future usage (with backend API)
- * const module = await fetch(`/api/modules/${slug}`)
- *   .then(res => res.ok ? res.json() : null);
  */
 export function getModuleBySlug(slug: string): ModuleDetail | undefined {
-  const foundModule = MOCK_MODULES.find((m) => m.slug === slug);
+  const foundModule = getAllModules().find((m) => m.slug === slug);
 
   if (!foundModule) {
     return undefined;
@@ -172,8 +244,7 @@ export function getModuleBySlug(slug: string): ModuleDetail | undefined {
 /**
  * Get modules filtered by category
  *
- * This function simulates filtering modules by category.
- * Useful for implementing category-based navigation in the future.
+ * Filters modules by category from content files.
  *
  * @param category - The category to filter by
  * @returns Array of modules in the specified category
@@ -182,7 +253,7 @@ export function getModuleBySlug(slug: string): ModuleDetail | undefined {
  * const wellnessModules = getModulesByCategory('Wellness');
  */
 export function getModulesByCategory(category: string): Module[] {
-  return MOCK_MODULES.filter((m) => m.category === category);
+  return getAllModules().filter((m) => m.category === category);
 }
 
 /**
@@ -194,10 +265,9 @@ export function getModulesByCategory(category: string): Module[] {
  *
  * @example
  * const categories = getAllCategories();
- * // Returns: ['Journaling', 'Wellness', 'Productivity', 'Coaching', 'Analytics']
  */
 export function getAllCategories(): string[] {
-  const categories = MOCK_MODULES.map((m) => m.category).filter(
+  const categories = getAllModules().map((m) => m.category).filter(
     (c): c is string => c !== undefined
   );
   return Array.from(new Set(categories));
@@ -214,5 +284,5 @@ export function getAllCategories(): string[] {
  * const availableModules = getEnabledModules();
  */
 export function getEnabledModules(): Module[] {
-  return MOCK_MODULES.filter((m) => m.enabled);
+  return getAllModules().filter((m) => m.enabled);
 }

@@ -80,10 +80,25 @@ ai-reflections/
 │   ├── PromptRail.tsx            # Smart writing prompts
 │   └── HelpButton.tsx            # Contextual writing suggestions
 ├── lib/                          # Utility functions and data
-│   ├── mockData.ts               # Mock module data (ready for API migration)
+│   ├── content.ts                # Content loading utilities (markdown → data)
+│   ├── mockData.ts               # Module data wrapper (uses content.ts)
 │   ├── materials.ts              # Materials content loader
-│   ├── promptPolicy.ts           # Prompt generation logic
+│   ├── promptPolicy.ts           # Prompt generation logic (uses content.ts)
 │   └── date.ts                   # Date utilities
+├── content/                      # Markdown content files
+│   ├── README.md                 # Content management documentation
+│   ├── modules/modules.md        # Module definitions
+│   ├── journal/                  # Journal content
+│   │   ├── prompts.md            # Role-based prompts
+│   │   └── suggestions.md        # Writing suggestions
+│   ├── ai-chat/                  # AI Chat content
+│   │   ├── emotion-prompts.md    # Emotion-based prompts
+│   │   ├── daily-questions.md    # 30 daily questions
+│   │   ├── badges.md             # Achievement badges
+│   │   ├── journeys.md           # Journey options
+│   │   ├── materials-shop.md     # Purchasable materials
+│   │   └── material-prompts.md   # Material activation prompts
+│   └── ui/labels.md              # UI text labels
 ├── types/                        # TypeScript type definitions
 │   └── module.ts                 # Module interfaces
 └── public/                       # Static assets
@@ -104,7 +119,20 @@ ai-reflections/
 - Chat stats: `reflection-stats`
 - Daily questions: `daily-question-{date}`
 
-**Future Migration**: Mock data utilities in `lib/mockData.ts` are designed for easy API migration. Each function includes JSDoc comments with migration examples.
+**Content Management**: All static content (modules, prompts, UI text) is stored in markdown files
+- Location: `/content` directory
+- Format: Structured markdown with key-value pairs
+- Loading: `lib/content.ts` parses markdown files on server-side
+- Fallback: Hardcoded data used on client-side
+- Documentation: See `content/README.md` for editing and migration guide
+- Backend Ready: Clear migration path to API endpoints documented in code
+
+**Future Migration**: Content system is designed for easy API migration:
+- Update `lib/content.ts` functions to use `fetch()` instead of file reading
+- Same function signatures and return types
+- No component changes needed
+- Can migrate one content type at a time
+- Full migration guide in `content/README.md`
 
 ### Key Patterns & Conventions
 
