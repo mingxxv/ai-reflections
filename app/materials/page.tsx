@@ -1,11 +1,7 @@
 import { getAllModules } from "@/lib/mockData";
 import { getAllMaterials, getMaterialsForSlug } from "@/lib/materials";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import MaterialsContent from "@/components/MaterialsContent";
 
 interface MaterialsPageProps {
   searchParams?: Promise<{
@@ -58,10 +54,10 @@ export default async function MaterialsPage(props: MaterialsPageProps) {
 
         {/* Content */}
         <section className="lg:col-span-8 xl:col-span-9">
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between gap-4">
+          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden flex flex-col h-[calc(100vh-12rem)] md:h-auto">
+            <div className="px-4 md:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-gray-100">Materials</h1>
+                <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-100">Materials</h1>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                   {selectedModule ? "Filtered by module" : "All materials"}
                 </p>
@@ -82,37 +78,7 @@ export default async function MaterialsPage(props: MaterialsPageProps) {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-1 xl:grid-cols-[280px_minmax(0,1fr)]">
-              {/* TOC */}
-              <nav className="border-b xl:border-b-0 xl:border-r border-gray-100 dark:border-gray-700 p-4 xl:p-6 sticky top-16 self-start max-h-[calc(100vh-8rem)] overflow-auto">
-                <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">On this page</p>
-                {/* Simple anchor extraction: rely on rehype-slug IDs; user will see anchors rendered */}
-                <div className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeRaw, rehypeSlug]}
-                    components={{
-                      h1: ({ children }) => <a className="block font-medium" href={`#${String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-')}`}>{children}</a>,
-                      h2: ({ children }) => <a className="block ml-2" href={`#${String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-')}`}>{children}</a>,
-                      h3: ({ children }) => <a className="block ml-4 text-xs" href={`#${String(children).toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-')}`}>{children}</a>,
-                      p: () => null,
-                      table: () => null,
-                    }}
-                  >
-                    {content}
-                  </ReactMarkdown>
-                </div>
-              </nav>
-              {/* Markdown Content */}
-              <article className="prose dark:prose-invert max-w-none p-6">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw, rehypeSlug, [rehypeAutolinkHeadings, { behavior: "wrap" }]]}
-                >
-                  {content}
-                </ReactMarkdown>
-              </article>
-            </div>
+            <MaterialsContent content={content} />
           </div>
         </section>
       </div>
