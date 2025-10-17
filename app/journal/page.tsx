@@ -72,13 +72,13 @@ export default function JournalPage() {
 
   if (appState === 'editing' && purpose) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
         {/* Header with Help Button */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg shadow-lg">
           <div className="max-w-4xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
                   Journal
                 </h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
@@ -114,12 +114,12 @@ export default function JournalPage() {
 
   // Fallback
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="text-center bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8">
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           Loading...
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-600 dark:text-gray-300">
           Setting up your journal experience
         </p>
       </div>

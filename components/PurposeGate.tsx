@@ -31,9 +31,9 @@ export default function PurposeGate({ onPurposeSelected }: PurposeGateProps) {
   ];
 
   return (
-    <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg shadow-lg p-6">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           What&apos;s your focus today?
         </h2>
 
@@ -42,9 +42,9 @@ export default function PurposeGate({ onPurposeSelected }: PurposeGateProps) {
             <button
               key={purpose.id}
               onClick={() => onPurposeSelected(purpose.id)}
-              className="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors text-left focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+              className="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:shadow-lg transition-all duration-200 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             >
-              <div className="font-medium text-gray-900 dark:text-gray-100 mb-1">
+              <div className="font-medium text-gray-900 dark:text-white mb-1">
                 {purpose.title}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">

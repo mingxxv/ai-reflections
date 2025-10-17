@@ -35,12 +35,13 @@ export default function ModuleCard({ module, className = "" }: ModuleCardProps) 
    * Base card classes shared between Link and div variants
    */
   const baseClasses = `
-    group relative flex flex-col gap-3 p-6 rounded-2xl
+    group relative flex flex-col gap-3 p-6 rounded-3xl
     bg-white dark:bg-gray-800
     border-2 border-gray-100 dark:border-gray-700
+    shadow-lg
     transition-all duration-300 ease-in-out
     ${enabled
-      ? "cursor-pointer hover:scale-105 hover:shadow-xl active:scale-100"
+      ? "cursor-pointer hover:scale-105 hover:shadow-2xl active:scale-100"
       : "opacity-50 cursor-not-allowed"
     }
     ${className}
@@ -65,14 +66,14 @@ export default function ModuleCard({ module, className = "" }: ModuleCardProps) 
 
       {/* Icon container with dynamic background color */}
       <div
-        className="flex items-center justify-center w-14 h-14 rounded-xl text-3xl"
+        className="flex items-center justify-center w-14 h-14 rounded-2xl text-3xl"
         style={{ backgroundColor: `${color}15` }}
       >
         {icon}
       </div>
 
       {/* Module title */}
-      <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 tracking-tight">
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">
         {title}
       </h3>
 
