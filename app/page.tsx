@@ -1,76 +1,140 @@
-import ModuleGrid from "@/components/ModuleGrid";
-import { getAllModules } from "@/lib/mockData";
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface DadJoke {
+  id: string;
+  joke: string;
+  status: number;
+}
 
 /**
  * Home Page
  *
- * Main landing page displaying a grid of available modules.
+ * Main landing page displaying a dad joke from icanhazdadjoke.com API.
  * Features:
+ * - Fetches a random dad joke on page load
  * - Mobile-first responsive design
- * - Sticky header with app title
- * - Grid-based module display
- * - Automatic data fetching from mock API (ready for backend integration)
+ * - Loading and error states
  *
- * Data flow:
- * 1. Server component fetches module data (currently from mock, future: API)
- * 2. ModuleGrid component renders the modules in a responsive grid
- * 3. Each ModuleCard is clickable and navigates to /module/[slug]
+ * API: https://icanhazdadjoke.com/
+ * Documentation: https://icanhazdadjoke.com/api
  *
- * Future enhancements:
- * - Add search/filter functionality
- * - Implement category-based filtering
- * - Add pagination for large module lists
- * - Include loading and error states
- *
- * @returns Rendered home page with module grid
+ * @returns Rendered home page with dad joke
  */
 export default function Home() {
+  const [joke, setJoke] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
   /**
-   * Fetch all available modules
-   * TODO: Replace with actual API call when backend is ready
-   * Example: const modules = await fetch('/api/modules').then(res => res.json())
+   * Fetch a random dad joke from the API
    */
-  const modules = getAllModules();
+  const fetchJoke = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch("https://icanhazdadjoke.com/", {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: DadJoke = await response.json();
+      setJoke(data.joke);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch joke");
+      console.error("Error fetching dad joke:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch joke on component mount
+  useEffect(() => {
+    fetchJoke();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      {/* Header section - sticky on scroll */}
-      <header className="sticky top-0 z-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg shadow-lg">
+      {/* Header section */}
+      <header className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col gap-2">
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
-              AI Reflections
+              DaddyBuddy
             </h1>
             <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
-              Explore modules and features below
+              the Rad App For Dads
             </p>
           </div>
         </div>
       </header>
 
       {/* Main content area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Module grid section */}
-        <section>
-          <div className="mb-6">
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-              Available Modules
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        {/* Dad Joke Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 sm:p-12">
+          <div className="text-center mb-6">
+            <span className="text-6xl mb-4 block">😄</span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Dad Joke of the Moment
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
-              Select a module to get started
-            </p>
           </div>
 
-          {/* Render module grid with fetched data */}
-          <ModuleGrid modules={modules} />
-        </section>
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <p className="mt-4 text-gray-600 dark:text-gray-400">Loading joke...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="text-center py-8">
+              <p className="text-red-600 dark:text-red-400 mb-4">
+                Oops! {error}
+              </p>
+              <button
+                onClick={fetchJoke}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {/* Joke Display */}
+          {joke && !loading && !error && (
+            <div className="text-center">
+              <p className="text-lg sm:text-xl text-gray-800 dark:text-gray-200 leading-relaxed mb-8">
+                {joke}
+              </p>
+              <button
+                onClick={fetchJoke}
+                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 px-6 rounded-2xl font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Get Another Joke
+              </button>
+            </div>
+          )}
+        </div>
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 border-t border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-lg">
+      <footer className="mt-16 border-t border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
-            Built with Next.js, React, and Tailwind CSS
+            Built with ❤️ from #HACK 2025 Challenge 10
+          </p>
+          <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
+            All honour and glory to God
           </p>
         </div>
       </footer>

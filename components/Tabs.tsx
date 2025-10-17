@@ -9,6 +9,8 @@ interface TabItem {
 }
 
 const TABS: TabItem[] = [
+  { label: "Home", href: "/" },
+  { label: "Modules", href: "/modules" },
   { label: "Journal", href: "/journal" },
   { label: "AI Chat", href: "/ai-chat" },
   { label: "Materials", href: "/materials" },
@@ -17,14 +19,14 @@ const TABS: TabItem[] = [
 /**
  * Tabs navigation component
  * - Route-driven (no local state); active tab inferred from pathname
- * - Mobile-first, minimal Tailwind styling
+ * - Hidden on mobile (mobile nav used instead), visible on desktop
  * - Intended for global use inside the root layout
  */
 export default function Tabs() {
   const pathname = usePathname() || "/";
 
   return (
-    <nav className="w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 border-b border-gray-200 dark:border-gray-800">
+    <nav className="hidden md:block w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex overflow-x-auto no-scrollbar -mb-px">
           {TABS.map((tab) => {

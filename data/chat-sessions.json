@@ -1,0 +1,128 @@
+[
+  {
+    "id": "session_1760715148265_j9xgdmx41",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Hello! I'm here to support you in your reflection journey. I've been following your journal entries and I'm curious - what's on your mind today? Is there something specific from your recent reflections you'd like to explore?",
+        "timestamp": "2025-10-17T15:31:56.436Z"
+      },
+      {
+        "role": "user",
+        "content": "i want to beat my son",
+        "timestamp": "2025-10-17T15:32:07.713Z"
+      },
+      {
+        "role": "assistant",
+        "content": "I can sense the depth in what you've shared. How do you think this experience has shaped your perspective?",
+        "timestamp": "2025-10-17T15:32:08.757Z"
+      },
+      {
+        "role": "user",
+        "content": "i dont want to beat my son but i also really want to beat my son",
+        "timestamp": "2025-10-17T15:32:23.597Z"
+      },
+      {
+        "role": "assistant",
+        "content": "That's a really thoughtful reflection. What emotions came up for you as you were writing this?",
+        "timestamp": "2025-10-17T15:32:24.645Z"
+      }
+    ],
+    "startedAt": "2025-10-17T15:31:55.259Z",
+    "endedAt": "2025-10-17T15:32:28.265Z",
+    "summary": "You had a meaningful 2-message reflection session, exploring various aspects of your thoughts and experiences. The conversation allowed you to process your feelings and gain new insights about yourself.",
+    "keyInsights": [
+      "Identified potential actions or changes to make"
+    ],
+    "messageCount": 5,
+    "duration": 1
+  },
+  {
+    "id": "session_1760715201004_4n0yp20lz",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Hello! I'm here to support you in your reflection journey. I've been following your journal entries and I'm curious - what's on your mind today? Is there something specific from your recent reflections you'd like to explore?",
+        "timestamp": "2025-10-17T15:32:59.237Z"
+      },
+      {
+        "role": "user",
+        "content": "kukubird!!!!!!!!!",
+        "timestamp": "2025-10-17T15:33:16.153Z"
+      },
+      {
+        "role": "assistant",
+        "content": "I can sense the depth in what you've shared. How do you think this experience has shaped your perspective?",
+        "timestamp": "2025-10-17T15:33:17.206Z"
+      }
+    ],
+    "startedAt": "2025-10-17T15:32:58.183Z",
+    "endedAt": "2025-10-17T15:33:21.004Z",
+    "summary": "You had a meaningful 1-message reflection session, exploring various aspects of your thoughts and experiences. The conversation allowed you to process your feelings and gain new insights about yourself.",
+    "keyInsights": [
+      "Engaged in thoughtful self-reflection",
+      "Explored personal thoughts and feelings"
+    ],
+    "messageCount": 3,
+    "duration": 0
+  },
+  {
+    "id": "session_1760717956620_vdmzxnigt",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Hello! I'm here to support you in your reflection journey. I've been following your journal entries and I'm curious - what's on your mind today? Is there something specific from your recent reflections you'd like to explore?",
+        "timestamp": "2025-10-17T16:18:31.321Z"
+      },
+      {
+        "role": "user",
+        "content": "quefhiewhfoiewjfoiewoifjwoijfew",
+        "timestamp": "2025-10-17T16:18:39.910Z"
+      },
+      {
+        "role": "assistant",
+        "content": "It's clear you've given this a lot of thought. What support or resources do you think would be most helpful right now?",
+        "timestamp": "2025-10-17T16:18:40.950Z"
+      },
+      {
+        "role": "user",
+        "content": "wefefwef",
+        "timestamp": "2025-10-17T16:19:06.996Z"
+      },
+      {
+        "role": "assistant",
+        "content": "I appreciate you sharing this. How do you feel about taking action on these thoughts?",
+        "timestamp": "2025-10-17T16:19:08.046Z"
+      },
+      {
+        "role": "user",
+        "content": "wefewfewfewfewf",
+        "timestamp": "2025-10-17T16:19:08.986Z"
+      },
+      {
+        "role": "assistant",
+        "content": "I can sense the depth in what you've shared. How do you think this experience has shaped your perspective?",
+        "timestamp": "2025-10-17T16:19:10.035Z"
+      },
+      {
+        "role": "user",
+        "content": "ewfewfewfewfew",
+        "timestamp": "2025-10-17T16:19:10.891Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Thank you for being so open. What would you say is the most important insight you've gained from this?",
+        "timestamp": "2025-10-17T16:19:11.943Z"
+      }
+    ],
+    "startedAt": "2025-10-17T16:18:30.263Z",
+    "endedAt": "2025-10-17T16:19:16.619Z",
+    "summary": "You had a meaningful 4-message reflection session, exploring various aspects of your thoughts and experiences. The conversation allowed you to process your feelings and gain new insights about yourself.",
+    "keyInsights": [
+      "Engaged in thoughtful self-reflection",
+      "Explored personal thoughts and feelings"
+    ],
+    "messageCount": 9,
+    "duration": 1
+  }
+]
